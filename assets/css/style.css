@@ -1,0 +1,12 @@
+.todaysBox {
+    border: 1px solid black;
+}
+
+.resultBox{
+    margin: 20px;
+}
+
+.searched{
+    border-top: 1px solid black;
+    margin-top: 20px;
+}
