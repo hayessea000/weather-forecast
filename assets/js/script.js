@@ -1,34 +1,39 @@
+let cityName 
+let cityLat 
+let cityLon 
 
-
-var getlocation = function () { 
+let getlocation = function () { 
     let cityInput = $("#searchinput")
-    var apiUrlLoc = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput.val()}&limit=5&appid=87c519cf4ba544282595e47fb0dc2455`
-    console.log(apiUrlLoc)
+    let apiUrlLoc = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput.val()}&appid=87c519cf4ba544282595e47fb0dc2455`
+    fetch(apiUrlLoc)
+        .then (function (response) {
+            return response.json();
+        })
+        .then (function (data){
+            console.log(data)
+            cityName = data[0].name
+            cityLat = data[0].lat
+            cityLon = data[0].lon
+            console.log(cityLat)
+            console.log(cityLon)
+            console.log(cityName)
+            getWeather()
+        })
 }
 
-var searchBtn =$("#submit-btn")
+let getWeather = function (){
+    let apiUrlWeather= `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&appid=87c519cf4ba544282595e47fb0dc2455&units=imperial`
+    fetch(apiUrlWeather)
+        .then (function (response) {
+            return response.json();
+        })
+        .then (function (data){
+            console.log(data)
+        })
+}
+
+let searchBtn =$("#submit-btn")
 searchBtn.on("click", function(event){
     event.preventDefault()
     getlocation()
 })   
-//     if(type == "s"){
-//         apiUrl = apiUrl + "search.php?"
-//     } else {
-//         apiUrl = apiUrl + "filter.php?"
-//     }
-//     apiUrl = apiUrl + type + "=" + searchParam[1] 
-//     console.log(apiUrl)
-
-//     fetch(apiUrl)
-//         .then (function (response) {
-//             return response.json();
-//         })
-//         .then (function (data){
-//             mealArr = data.meals
-//             console.log(mealArr)
-//             generateCards();
-//         })
-// }
-
-
-// http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
