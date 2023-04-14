@@ -1,22 +1,29 @@
 let cityName 
 let cityLat 
 let cityLon 
+var savedCities
+let cityInput = $("#searchinput")
 
 let getlocation = function () { 
-    let cityInput = $("#searchinput")
     let apiUrlLoc = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput.val()}&appid=87c519cf4ba544282595e47fb0dc2455`
     fetch(apiUrlLoc)
         .then (function (response) {
             return response.json();
         })
         .then (function (data){
-            console.log(data)
             cityName = data[0].name
             cityLat = data[0].lat
             cityLon = data[0].lon
-            console.log(cityLat)
-            console.log(cityLon)
-            console.log(cityName)
+            var citysearch ={"lat": data[0].lat, "lon": data[0].lon, "nameCity": data[0].name}
+            if (savedCities.length < 5){
+                savedCities.unshift(citysearch);
+            }else{
+                var scrap =savedCities.pop();
+                savedCities.unshift(citysearch);
+            }
+            console.log(savedCities)
+            localStorage.setItem("savedCities", JSON.stringify(savedCities));
+            searchHistory()
             getWeather()
         })
 }
@@ -32,8 +39,32 @@ let getWeather = function (){
         })
 }
 
+let searchHistory= function(){
+    var cityHistory= $("#savedCities")
+    cityHistory.html("")
+    for (let i=0; i<savedCities.length; i++){
+        var historyCard= $("<button>")
+        historyCard.text(savedCities[i].nameCity)
+        historyCard.attr("data-lat",`${savedCities[i].lat}`)
+        historyCard.attr("data-lon",`${savedCities[i].lon}`)
+        cityHistory.append(historyCard)
+    }
+}
+
 let searchBtn =$("#submit-btn")
 searchBtn.on("click", function(event){
     event.preventDefault()
-    getlocation()
+    let cityInputVal=cityInput.val()
+    if(cityInputVal== ""){
+        alert("Please enter a value to search for.");
+        return;
+    }else{
+        getlocation()
+    }
 })   
+
+savedCities = JSON.parse(localStorage.getItem("savedCities"));
+if(savedCities== null){
+    savedCities=[];
+    }
+searchHistory()
