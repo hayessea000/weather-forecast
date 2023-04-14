@@ -29,13 +29,35 @@ let getlocation = function () {
 }
 
 let getWeather = function (){
-    let apiUrlWeather= `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&appid=87c519cf4ba544282595e47fb0dc2455&units=imperial`
+    // let apiUrlWeather= `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&appid=87c519cf4ba544282595e47fb0dc2455&units=imperial`
+    let apiUrlWeather= `https://api.openweathermap.org/data/2.5/weather?lat=${cityLat}&lon=${cityLon}&appid=87c519cf4ba544282595e47fb0dc2455&units=imperial`
     fetch(apiUrlWeather)
         .then (function (response) {
             return response.json();
         })
         .then (function (data){
             console.log(data)
+            let todayWeatherBox = $("#todayWeather")
+            let todayWeatherBoxCity = $("<h2>")
+            todayWeatherBoxCity.text(`${data.name}`)
+            let todayWeatherBoxtemp = $("<p>")
+            todayWeatherBoxtemp.text(`Temp: ${data.main.temp} F`)
+
+
+            todayWeatherBox.append(todayWeatherBoxCity)
+            todayWeatherBox.append(todayWeatherBoxtemp)
+
+
+
+
+
+
+
+
+
+
+
+
         })
 }
 
@@ -47,7 +69,10 @@ let searchHistory= function(){
         historyCard.text(savedCities[i].nameCity)
         historyCard.attr("data-lat",`${savedCities[i].lat}`)
         historyCard.attr("data-lon",`${savedCities[i].lon}`)
-        cityHistory.append(historyCard)
+        var historyDiv= $("<div>")
+
+        historyDiv.append(historyCard)
+        cityHistory.append(historyDiv)
     }
 }
 
