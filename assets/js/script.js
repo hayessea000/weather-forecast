@@ -5,7 +5,7 @@ var savedCities
 let cityInput = $("#searchinput")
 let today= dayjs().format("M/D/YYYY");
 let getlocation = function () { 
-    let apiUrlLoc = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput.val()}&appid=87c519cf4ba544282595e47fb0dc2455`
+    let apiUrlLoc = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.val()}&appid=87c519cf4ba544282595e47fb0dc2455`
     fetch(apiUrlLoc)
         .then (function (response) {
             return response.json();
