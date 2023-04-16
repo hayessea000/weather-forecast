@@ -67,9 +67,6 @@ let getWeather = function (){
             // makes the forecast weather
             let forecastWeather= data
             console.log(forecastWeather)
-            // next line of code given by instuctor
-            const newForecastArr = forecastWeather.list.filter( (_dayObj, idx) => idx % 8 === 0)
-            console.log(newForecastArr)
             let forecastWeatherBox = $("#forecast")
             forecastWeatherBox.html("")
             for(let i=3; i<40; i=i+8){
