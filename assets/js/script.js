@@ -68,11 +68,9 @@ let getWeather = function (){
         .then (function (data){
             // makes the forecast weather
             let forecastWeather= data
-            console.log(forecastWeather)
             let forecastWeatherBox = $("#forecast")
             forecastWeatherBox.html("")
             for(let i=3; i<40; i=i+8){
-                console.log(i)
                 let forecastWeatherCard = $("<div>")
                 forecastWeatherCard.attr("class", "forecast-card")
                 let forecastWeatherDate = $("<h4>")
@@ -121,9 +119,7 @@ let searchHistory= function(){
     let historySearch= $(".historyBtn")
     historySearch.on("click", function(event){
         cityLat = event.target.getAttribute("data-lat")
-        console.log(cityLat)
         cityLon = event.target.getAttribute("data-lon")
-        console.log(cityLon)
         getWeather()
         
     }) 
