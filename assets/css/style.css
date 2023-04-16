@@ -2,7 +2,9 @@
     border: 1px solid black;
 }
 
-
+.forecast-card{
+    background-color: navy;
+}
 
 #searched{
     border-top: 1px solid black;

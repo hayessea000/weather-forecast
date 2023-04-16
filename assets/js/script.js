@@ -21,7 +21,6 @@ let getlocation = function () {
                 var scrap =savedCities.pop();
                 savedCities.unshift(citysearch);
             }
-            console.log(savedCities)
             localStorage.setItem("savedCities", JSON.stringify(savedCities));
             searchHistory()
             getWeather()
@@ -36,14 +35,13 @@ let getWeather = function (){
             return response.json();
         })
         .then (function (data){
-            console.log(data)
             // makes the todays weather
             let todaysWeather= data
             let todayWeatherBox = $("#todayWeather")
             let todayWeatherBoxHeader = $("<div>")
             let todayWeatherBoxCity = $("<h2>")
             let todayWeatherBoxImage = $("<img>")
-            todayWeatherBoxImage.attr("src", `https://openweathermap.org/img/wn/${todaysWeather.weather[0].icon}@2x.png`)
+            todayWeatherBoxImage.attr("src", `https://openweathermap.org/img/wn/${todaysWeather.weather[0].icon}.png`)
             todayWeatherBoxImage.attr("alt", `${todaysWeather.weather[0].description}`)
             todayWeatherBoxCity.text(`${todaysWeather.name} (${today})`)
             let todayWeatherBoxtemp = $("<p>")
@@ -65,15 +63,44 @@ let getWeather = function (){
             return response.json();
         })
         .then (function (data){
-            console.log(data)
             // makes the forecast weather
             let forecastWeather= data
+            console.log(forecastWeather)
+            // next line of code given by instuctor
+            const newForecastArr = forecastWeather.list.filter( (_dayObj, idx) => idx % 8 === 0)
+            console.log(newForecastArr)
+            for(let i=3; i<40; i=i+8){
+                console.log(i)
+                let forecastWeatherBox = $("#forecast")
+                let forecastWeatherCard = $("<div>")
+                forecastWeatherCard.attr("class", "forecast-card")
+                let forecastWeatherDate = $("<h4>")
+                forecastWeatherDate.attr("class", "text-light")
+                // forecastWeatherDate.val(forecastWeather.list[3].dt_text)
+                // console.log(forecastWeather.list[3])
+                let forecastWeatherImage =$("<img>")
+                forecastWeatherImage.attr("src", `https://openweathermap.org/img/wn/${forecastWeather.list[i].weather[0].icon}.png`)
+                forecastWeatherImage.attr("alt", `${forecastWeather.list[i].weather[0].description}`)
+                let forecastWeatherTemp =$("<p>")
+                forecastWeatherTemp.attr("class", "text-light")
+                forecastWeatherTemp.text(`Temp: ${forecastWeather.list[i].main.temp} °F`)
+                let forecastWeatherWind =$("<p>")
+                forecastWeatherWind.attr("class", "text-light")
+                forecastWeatherWind.text(`Wind: ${forecastWeather.list[i].wind.speed} MPH`)
+                let forecastWeatherHumidity =$("<p>")
+                forecastWeatherHumidity.attr("class", "text-light")
+                forecastWeatherHumidity.text(`Humidity: ${forecastWeather.list[i].main.humidity} %`)
+                
+                forecastWeatherCard.append(forecastWeatherDate)
+                forecastWeatherCard.append(forecastWeatherImage)
+                forecastWeatherCard.append(forecastWeatherTemp)
+                forecastWeatherCard.append(forecastWeatherWind)
+                forecastWeatherCard.append(forecastWeatherHumidity)
+                forecastWeatherBox.append(forecastWeatherCard)
+            }
             
-
-
-
-
-
+            
+            
 
         })    
 }
@@ -104,7 +131,19 @@ searchBtn.on("click", function(event){
         getlocation()
     }
 })   
-
+searchBtn.on("click", function(event){
+    event.preventDefault()
+    cityLat = event.target.getattr("data-lat")
+    console.log(cityLat)
+    cityLon = event.target.getattr("data-lon")
+    console.log(cityLon)
+    if(cityInputVal== ""){
+        alert("Please enter a value to search for.");
+        return;
+    }else{
+        getWeather()
+    }
+})   
 savedCities = JSON.parse(localStorage.getItem("savedCities"));
 if(savedCities== null){
     savedCities=[];
