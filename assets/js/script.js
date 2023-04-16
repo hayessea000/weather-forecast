@@ -38,6 +38,7 @@ let getWeather = function (){
             // makes the todays weather
             let todaysWeather= data
             let todayWeatherBox = $("#todayWeather")
+            todayWeatherBox.html("")
             let todayWeatherBoxHeader = $("<div>")
             let todayWeatherBoxCity = $("<h2>")
             let todayWeatherBoxImage = $("<img>")
@@ -69,9 +70,10 @@ let getWeather = function (){
             // next line of code given by instuctor
             const newForecastArr = forecastWeather.list.filter( (_dayObj, idx) => idx % 8 === 0)
             console.log(newForecastArr)
+            let forecastWeatherBox = $("#forecast")
+            forecastWeatherBox.html("")
             for(let i=3; i<40; i=i+8){
                 console.log(i)
-                let forecastWeatherBox = $("#forecast")
                 let forecastWeatherCard = $("<div>")
                 forecastWeatherCard.attr("class", "forecast-card")
                 let forecastWeatherDate = $("<h4>")
@@ -111,6 +113,7 @@ let searchHistory= function(){
     for (let i=0; i<savedCities.length; i++){
         var historyCard= $("<button>")
         historyCard.text(savedCities[i].nameCity)
+        historyCard.attr("class","historyBtn")
         historyCard.attr("data-lat",`${savedCities[i].lat}`)
         historyCard.attr("data-lon",`${savedCities[i].lon}`)
         var historyDiv= $("<div>")
@@ -118,6 +121,16 @@ let searchHistory= function(){
         historyDiv.append(historyCard)
         cityHistory.append(historyDiv)
     }
+    let historySearch= $(".historyBtn")
+    historySearch.on("click", function(event){
+        event.preventDefault()
+        cityLat = historySearch.data("lat")
+        console.log(cityLat)
+        cityLon = historySearch.data("lon")
+        console.log(cityLon)
+        getWeather()
+        
+    }) 
 }
 
 let searchBtn =$("#submit-btn")
@@ -131,19 +144,19 @@ searchBtn.on("click", function(event){
         getlocation()
     }
 })   
-searchBtn.on("click", function(event){
-    event.preventDefault()
-    cityLat = event.target.getattr("data-lat")
-    console.log(cityLat)
-    cityLon = event.target.getattr("data-lon")
-    console.log(cityLon)
-    if(cityInputVal== ""){
-        alert("Please enter a value to search for.");
-        return;
-    }else{
-        getWeather()
-    }
-})   
+// searchBtn.on("click", function(event){
+//     event.preventDefault()
+//     cityLat = event.target.getattr("data-lat")
+//     console.log(cityLat)
+//     cityLon = event.target.getattr("data-lon")
+//     console.log(cityLon)
+//     if(cityInputVal== ""){
+//         alert("Please enter a value to search for.");
+//         return;
+//     }else{
+//         getWeather()
+//     }
+// })   
 savedCities = JSON.parse(localStorage.getItem("savedCities"));
 if(savedCities== null){
     savedCities=[];
