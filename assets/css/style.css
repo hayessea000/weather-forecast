@@ -1,3 +1,8 @@
+header{
+    background-image: linear-gradient(to right, rgb(106, 106, 247), rgb(27, 27, 78));
+    height: 75px;
+}
+
 .todaysBox {
     border: 1px solid black;
 }
@@ -25,4 +30,8 @@ input{
 .forecast-card{
     width: 200px;
     margin: 20px;
+}
+
+#bigguy{
+    width: 100px;
 }
