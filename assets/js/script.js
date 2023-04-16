@@ -123,10 +123,10 @@ let searchHistory= function(){
     }
     let historySearch= $(".historyBtn")
     historySearch.on("click", function(event){
-        event.preventDefault()
-        cityLat = historySearch.data("lat")
+        let tester= event.target
+        cityLat = event.target.getAttribute("data-lat")
         console.log(cityLat)
-        cityLon = historySearch.data("lon")
+        cityLon = event.target.getAttribute("data-lon")
         console.log(cityLon)
         getWeather()
         
